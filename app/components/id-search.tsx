@@ -17,9 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const FormSchema = z.object({
-  id: z.string().min(2, {
-    message: "ID must be at least 6 characters.",
-  }),
+  id: z.string().length(7, { message: "ID must be at least 6 characters." }),
 });
 
 export default function IdSearch() {
@@ -59,8 +57,9 @@ export default function IdSearch() {
               <FormItem className="w-full">
                 <FormControl>
                   <Input
+                    autoFocus
                     placeholder="Enter Kep ID..."
-                    className="border-none focus-visible:border-none focus-visible:ring-0 dark:bg-none"
+                    className="border-none shadow-none focus-visible:border-none focus-visible:ring-0 dark:bg-none"
                     {...field}
                   />
                 </FormControl>
