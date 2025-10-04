@@ -29,6 +29,7 @@ export default function RootLayout({
           `${geistSans.variable} ${geistMono.variable}`,
           "flex min-h-dvh max-w-dvw flex-col antialiased",
         )}
+        suppressHydrationWarning
       >
         <RootProviders>
           <AppHeader />
