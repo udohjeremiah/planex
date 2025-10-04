@@ -9,6 +9,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "type-check": "tsc -b"
   },
   "dependencies": {
@@ -21,13 +22,21 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.4.0",
     "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.37.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/parser": "^8.45.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unicorn": "^61.0.2",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
