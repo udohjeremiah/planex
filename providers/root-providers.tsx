@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 
 import { getQueryClient } from "@/lib/tanstack-query";
 import ThemeProvider from "@/providers/theme-provider";
+
 import ToasterProvider from "./toaster-provider";
 
 export default function RootProviders({ children }: { children: ReactNode }) {

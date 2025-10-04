@@ -33,13 +33,15 @@ export const FileUpload = ({
     multiple: false,
     noClick: true,
     accept: accept
-      ? accept.split(",").reduce<Record<string, string[]>>((acc, ext) => {
-          const trimmed = ext.trim();
-          if (trimmed.startsWith(".")) {
-            acc[`application/${trimmed.slice(1)}`] = [trimmed];
-          }
-          return acc;
-        }, {})
+      ? accept
+          .split(",")
+          .reduce<Record<string, string[]>>((accumulator, extension) => {
+            const trimmed = extension.trim();
+            if (trimmed.startsWith(".")) {
+              accumulator[`application/${trimmed.slice(1)}`] = [trimmed];
+            }
+            return accumulator;
+          }, {})
       : undefined,
     onDrop: handleFileChange,
     onDropRejected: (error) => console.error(error),

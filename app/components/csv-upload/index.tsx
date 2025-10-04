@@ -1,15 +1,16 @@
 "use client";
 
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { LoaderIcon } from "lucide-react";
 import React, { useState } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
-import { useCsvUpload } from "./queries";
-import { toast } from "sonner";
 import { catchError } from "@/utils/catch-error";
-import { LoaderIcon } from "lucide-react";
+
+import { useCsvUpload } from "./queries";
 
 export default function CsvUpload() {
   const mutation = useCsvUpload();

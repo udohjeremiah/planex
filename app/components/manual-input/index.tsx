@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { LoaderIcon } from "lucide-react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,9 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
-import { useManualInput } from "./queries";
 import { catchError } from "@/utils/catch-error";
-import { LoaderIcon } from "lucide-react";
+
+import { useManualInput } from "./queries";
 
 const numericString = nonEmptyString
   .max(5, { error: "Field must be 5 characters at maximum." })
