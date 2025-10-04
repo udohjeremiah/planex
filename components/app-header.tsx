@@ -7,7 +7,9 @@ export default function AppHeader() {
     <header className="bg-background text-foreground sticky top-0 z-50 flex h-14 shrink-0 gap-2 border-b px-4 py-2">
       <div className="mx-auto flex w-full max-w-4xl items-center justify-between">
         <h1 className="text-lg font-medium">
-          <Link href="/">Planex</Link>
+          <Link href="/" className="hover:opacity-75">
+            Planex
+          </Link>
         </h1>
         <div className="ml-auto">
           <ModeToggle />

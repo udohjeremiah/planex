@@ -3,17 +3,17 @@ import Link from "next/link";
 export default function AppFooter() {
   return (
     <footer>
-      <p className="text-muted-foreground w-full px-4 text-center text-xs leading-loose sm:text-sm">
+      <p className="text-muted-foreground w-full p-4 text-center text-xs leading-loose sm:text-sm">
         Built by{" "}
         <Link
-          href="#"
+          href="https://www.spaceappschallenge.org/2025/find-a-team/silicon-benin"
           target="_blank"
           rel="noreferrer"
           className="font-medium underline underline-offset-4"
         >
           Silicon Benin
         </Link>
-        . The source code is available on
+        . The source code is available on{" "}
         <Link
           href="https://github.com/udohjeremiah/planex"
           target="_blank"

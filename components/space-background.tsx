@@ -47,7 +47,18 @@ export default function SpaceBackground() {
           },
         },
         size: {
-          value: { min: 0.5, max: 1.8 },
+          value: { min: 1, max: 2.4 },
+          animation: {
+            enable: true,
+            speed: 2,
+            minimumValue: 0.8,
+            sync: false,
+          },
+        },
+        shadow: {
+          enable: true,
+          blur: 3,
+          color: isDark ? "#ffffff" : "#8ec5ff",
         },
         move: {
           enable: true,
