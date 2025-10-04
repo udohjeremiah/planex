@@ -2,7 +2,10 @@ import "./globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";
 
+import AppFooter from "@/components/app-footer";
+import AppHeader from "@/components/app-header";
 import RootProviders from "@/providers/root-providers";
+import { cn } from "@/utils/cn";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,9 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(
+          `${geistSans.variable} ${geistMono.variable}`,
+          "flex min-h-dvh max-w-dvw flex-col antialiased",
+        )}
       >
-        <RootProviders>{children}</RootProviders>
+        <RootProviders>
+          <AppHeader />
+          {children}
+          <AppFooter />
+        </RootProviders>
       </body>
     </html>
   );
