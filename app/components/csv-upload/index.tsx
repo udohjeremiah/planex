@@ -1,11 +1,11 @@
 "use client";
 
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 export default function CSVUpload() {
   const [files, setFiles] = useState<File[]>([]);
@@ -22,7 +22,7 @@ export default function CSVUpload() {
           <div className="mx-auto min-h-96 w-full max-w-4xl rounded-lg border border-dashed">
             <FileUpload
               title="Upload CSV Files"
-              description="Drag or drop your CSV files here or click to upload but it must have the 5 parameters shown above on Manual Input"
+              description="Drag or drop your CSV files here or click to upload."
               onChange={handleFileUpload}
             />
             {files.length > 0 && (

@@ -1,11 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { RocketIcon, SendIcon } from "lucide-react";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,13 +17,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { nonEmptyString } from "@/schemas/non-empty-string";
 
 export const FormSchema = z.object({
   id: nonEmptyString
     .max(5, { error: "Field must be 5 characters at maximum." })
-    .refine((val) => /^\d+$/.test(val), {
+    .refine((value) => /^\d+$/.test(value), {
       error: "Field must contain only numbers.",
     }),
 });

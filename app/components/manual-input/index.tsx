@@ -1,13 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { nonEmptyString } from "@/schemas/non-empty-string";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,10 +17,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { nonEmptyString } from "@/schemas/non-empty-string";
 
 const numericString = nonEmptyString
   .max(5, { error: "Field must be 5 characters at maximum." })
-  .refine((val) => /^\d+$/.test(val), {
+  .refine((value) => /^\d+$/.test(value), {
     error: "Field must contain only numbers.",
   });
 
@@ -62,70 +62,65 @@ export default function ManualInput() {
       {({ reset }) => (
         <ErrorBoundary FallbackComponent={Fallback} onReset={reset}>
           <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 px-2 py-2">
-            <div>
-              <h3 className="text-xl font-medium">Manual Input</h3>
-              <p className="text-muted-foreground text-sm">
-                Enter key observation values manually to let Planex&apos;s AI
-                analyze and predict if they indicate an exoplanet.
-              </p>
-            </div>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="grid w-full grid-cols-1 flex-wrap gap-4 md:grid-cols-2"
+                className="flex flex-col gap-4"
               >
-                <FormField
-                  control={form.control}
-                  name="lcLenLocal"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Local Folded Light Curve</FormLabel>
-                      <FormControl>
-                        <Input placeholder="201" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lcLenGlobal"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Global Folded Light Curve</FormLabel>
-                      <FormControl>
-                        <Input placeholder="2001" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lcLenUnfolded"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Unfolded Light Curve</FormLabel>
-                      <FormControl>
-                        <Input placeholder="4000" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="centroidLen"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Centroid Time Series</FormLabel>
-                      <FormControl>
-                        <Input placeholder="2001" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="lcLenLocal"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Local Folded Light Curve</FormLabel>
+                        <FormControl>
+                          <Input placeholder="201" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lcLenGlobal"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Global Folded Light Curve</FormLabel>
+                        <FormControl>
+                          <Input placeholder="2001" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lcLenUnfolded"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Unfolded Light Curve</FormLabel>
+                        <FormControl>
+                          <Input placeholder="4000" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="centroidLen"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Centroid Time Series</FormLabel>
+                        <FormControl>
+                          <Input placeholder="2001" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
                   name="numScalarFeatures"
@@ -139,9 +134,7 @@ export default function ManualInput() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="self-end">
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </form>
             </Form>
           </div>

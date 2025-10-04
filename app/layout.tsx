@@ -1,9 +1,8 @@
 import "./globals.css";
 
+import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import AppFooter from "@/components/app-footer";
-import AppHeader from "@/components/app-header";
 import RootProviders from "@/providers/root-providers";
 import { cn } from "@/utils/cn";
 
@@ -16,6 +15,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: "Planex — Discover New Worlds with AI",
+  description:
+    "Planex transforms NASA's open exoplanet data into cosmic discoveries. Enter a KEP ID, upload a CSV, or input data manually to detect potential exoplanets using AI-powered analysis.",
+};
 
 export default function RootLayout({
   children,
@@ -31,11 +36,7 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <RootProviders>
-          <AppHeader />
-          {children}
-          <AppFooter />
-        </RootProviders>
+        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );
