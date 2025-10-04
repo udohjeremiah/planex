@@ -1,12 +1,13 @@
-import { toastApiError } from "@/utils/toast-api-error";
 import {
-  isServer,
-  QueryClient,
-  defaultShouldDehydrateQuery,
-  QueryCache,
-  MutationCache,
   DefaultOptions,
+  defaultShouldDehydrateQuery,
+  isServer,
+  MutationCache,
+  QueryCache,
+  QueryClient,
 } from "@tanstack/react-query";
+
+import { toastApiError } from "@/utils/toast-api-error";
 
 function makeQueryClient() {
   const defaultOptions: DefaultOptions = {
@@ -75,4 +76,4 @@ export function getQueryClient() {
   }
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: QueryClient | undefined;
