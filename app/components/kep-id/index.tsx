@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { RocketIcon, SendIcon } from "lucide-react";
+import { LoaderIcon, RocketIcon, SendIcon } from "lucide-react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,9 +18,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
+import { useKepId } from "./queries";
+import { catchError } from "@/utils/catch-error";
 
 export const FormSchema = z.object({
-  id: nonEmptyString
+  kepId: nonEmptyString
     .max(5, { error: "Field must be 5 characters at maximum." })
     .refine((value) => /^\d+$/.test(value), {
       error: "Field must contain only numbers.",
@@ -28,23 +30,21 @@ export const FormSchema = z.object({
 });
 
 export default function KepId() {
+  const mutation = useKepId();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      id: "",
+      kepId: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast("You submitted the following values", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">
-            {JSON.stringify(data, undefined, 2)}
-          </code>
-        </pre>
-      ),
-    });
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    const [error, data] = await catchError(mutation.mutateAsync(values));
+    if (error) return;
+
+    form.reset();
+    console.log(data);
+    toast("");
   }
 
   return (
@@ -62,7 +62,7 @@ export default function KepId() {
               >
                 <FormField
                   control={form.control}
-                  name="id"
+                  name="kepId"
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormControl>
@@ -77,8 +77,17 @@ export default function KepId() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" variant="secondary" size="icon">
-                  <SendIcon />
+                <Button
+                  disabled={form.formState.isSubmitting}
+                  type="submit"
+                  variant="secondary"
+                  size="icon"
+                >
+                  {form.formState.isSubmitting ? (
+                    <LoaderIcon className="size-4 animate-spin" />
+                  ) : (
+                    <SendIcon />
+                  )}
                 </Button>
               </form>
             </Form>

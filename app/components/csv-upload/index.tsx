@@ -6,14 +6,23 @@ import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
+import { useCsvUpload } from "./queries";
+import { toast } from "sonner";
+import { catchError } from "@/utils/catch-error";
+import { LoaderIcon } from "lucide-react";
 
-export default function CSVUpload() {
-  const [files, setFiles] = useState<File[]>([]);
+export default function CsvUpload() {
+  const mutation = useCsvUpload();
+  const [file, setFile] = useState<File>();
 
-  const handleFileUpload = (files: File[]) => {
-    setFiles(files);
-    console.log(files);
-  };
+  async function onSubmit(file: File) {
+    const [error, data] = await catchError(mutation.mutateAsync({ file }));
+    if (error) return;
+
+    setFile(undefined);
+    console.log(data);
+    toast("");
+  }
 
   return (
     <QueryErrorResetBoundary>
@@ -21,13 +30,24 @@ export default function CSVUpload() {
         <ErrorBoundary FallbackComponent={Fallback} onReset={reset}>
           <div className="mx-auto min-h-96 w-full max-w-4xl rounded-lg border border-dashed">
             <FileUpload
-              title="Upload CSV Files"
-              description="Drag or drop your CSV files here or click to upload."
-              onChange={handleFileUpload}
+              title="Upload CSV File"
+              description="Drag or drop your CSV file here or click to upload."
+              accept=".csv"
+              onChange={setFile}
             />
-            {files.length > 0 && (
+            {file && (
               <div className="flex items-center justify-center px-10 pb-10">
-                <Button className="w-full max-w-xl">Submit</Button>
+                <Button
+                  onClick={() => onSubmit(file!)}
+                  disabled={mutation.isPending}
+                  className="w-full max-w-xl"
+                >
+                  {mutation.isPending ? (
+                    <LoaderIcon className="size-4 animate-spin" />
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
               </div>
             )}
           </div>

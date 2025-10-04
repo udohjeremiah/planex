@@ -18,6 +18,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
+import { useManualInput } from "./queries";
+import { catchError } from "@/utils/catch-error";
+import { LoaderIcon } from "lucide-react";
 
 const numericString = nonEmptyString
   .max(5, { error: "Field must be 5 characters at maximum." })
@@ -34,6 +37,7 @@ export const FormSchema = z.object({
 });
 
 export default function ManualInput() {
+  const mutation = useManualInput();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,16 +49,13 @@ export default function ManualInput() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast("You submitted the following values", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">
-            {JSON.stringify(data, undefined, 2)}
-          </code>
-        </pre>
-      ),
-    });
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    const [error, data] = await catchError(mutation.mutateAsync(values));
+    if (error) return;
+
+    form.reset();
+    console.log(data);
+    toast("");
   }
 
   return (
@@ -134,7 +135,13 @@ export default function ManualInput() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button disabled={form.formState.isSubmitting} type="submit">
+                  {form.formState.isSubmitting ? (
+                    <LoaderIcon className="size-4 animate-spin" />
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
               </form>
             </Form>
           </div>

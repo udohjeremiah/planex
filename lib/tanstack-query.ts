@@ -11,9 +11,6 @@ import { toastApiError } from "@/utils/toast-api-error";
 
 function makeQueryClient() {
   const defaultOptions: DefaultOptions = {
-    queries: {
-      staleTime: 3 * 60 * 1000, // 3 minutes
-    },
     dehydrate: {
       // Include pending queries in dehydration
       shouldDehydrateQuery: (query) =>

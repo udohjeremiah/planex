@@ -6,7 +6,7 @@ import AppFooter from "@/components/app-footer";
 import AppHeader from "@/components/app-header";
 import SpaceBackground from "@/components/space-background";
 
-import CSVUpload from "./components/csv-upload";
+import CsvUpload from "./components/csv-upload";
 import Hero from "./components/hero";
 import KepId from "./components/kep-id";
 import ManualInput from "./components/manual-input";
@@ -35,7 +35,7 @@ export default function Home() {
         </div>
         {app === "kep-id" && <KepId />}
         {app === "manual-input" && <ManualInput />}
-        {app === "csv-upload" && <CSVUpload />}
+        {app === "csv-upload" && <CsvUpload />}
       </main>
       <AppFooter />
     </>
