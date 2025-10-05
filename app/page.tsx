@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   ReactDOM.preload("/planets/sun.png", { as: "image" });
+  ReactDOM.preload("/space.webm", { as: "video", type: "video/webm" });
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

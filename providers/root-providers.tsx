@@ -8,6 +8,7 @@ import { ModalProvider } from "@/components/ui/animated-modal";
 import { getQueryClient } from "@/lib/tanstack-query";
 import ThemeProvider from "@/providers/theme-provider";
 
+import { SolarSystemProvider } from "./solar-provider";
 import ToasterProvider from "./toaster-provider";
 
 export default function RootProviders({ children }: { children: ReactNode }) {
@@ -16,9 +17,11 @@ export default function RootProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <ToasterProvider>
-          <ModalProvider>{children}</ModalProvider>
-        </ToasterProvider>
+        <SolarSystemProvider>
+          <ToasterProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </ToasterProvider>
+        </SolarSystemProvider>
       </ThemeProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>

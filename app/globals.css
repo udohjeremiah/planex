@@ -119,59 +119,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* Planet spin animations */
-  @keyframes spin-slow {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes spin-slower {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(180deg);
-    }
-  }
-
-  @keyframes spin-slower-reverse {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(-180deg);
-    }
-  }
-
-  /* Pulsing glow behind planet */
-  @keyframes pulse-slow {
-    0%,
-    100% {
-      transform: scale(1);
-      opacity: 0.3;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.5;
-    }
-  }
-
-  /* Starfield shimmer animation */
-  @keyframes star-shimmer {
-    0%,
-    100% {
-      background-position: 0 0;
-    }
-    50% {
-      background-position: 10px 10px;
-    }
-  }
-
-  /* Fading halo / info animation */
   @keyframes fade-in-up {
     0% {
       opacity: 0;
@@ -183,64 +130,8 @@
     }
   }
 
-  /* Atmospheric bands rotation */
-  @keyframes band-spin-fast {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes band-spin-slow-reverse {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(-180deg);
-    }
-  }
-
-  /* Glow pulse */
-  @keyframes glow-pulse {
-    0%,
-    100% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-    50% {
-      transform: scale(1.15);
-      opacity: 0.4;
-    }
-  }
-
-  /* Tailwind classes for JSX */
-  .animate-spin-slow {
-    animation: spin-slow 20s linear infinite;
-  }
-  .animate-spin-slower {
-    animation: spin-slower 40s linear infinite;
-  }
-  .animate-spin-slower-reverse {
-    animation: spin-slower-reverse 50s linear infinite;
-  }
-  .animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
-  }
-  .animate-star-shimmer {
-    animation: star-shimmer 6s linear infinite;
-  }
   .animate-fade-in-up {
     animation: fade-in-up 0.8s ease-out both;
-  }
-  .animate-band-spin-fast {
-    animation: band-spin-fast 10s linear infinite;
-  }
-  .animate-band-spin-slow-reverse {
-    animation: band-spin-slow-reverse 25s linear infinite;
-  }
-  .animate-glow-pulse {
-    animation: glow-pulse 4s ease-in-out infinite;
   }
 }
 

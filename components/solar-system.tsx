@@ -1,6 +1,14 @@
+"use client";
+
 import Image from "next/image";
 
+import { useSolarSystem } from "@/providers/solar-provider";
+
 export default function SolarSystem() {
+  const { visible } = useSolarSystem();
+
+  if (!visible) return;
+
   return (
     <div className="absolute -z-50">
       <div className="container">

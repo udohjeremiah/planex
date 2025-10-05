@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 
+import { useSolarSystem } from "@/providers/solar-provider";
 import { cn } from "@/utils/cn";
 
 interface ModalContextType {
@@ -76,7 +77,11 @@ export const ModalBody = ({
 
   const modalRef = useRef<HTMLDivElement>(null);
   const { setOpen } = useModal();
-  useOutsideClick(modalRef, () => setOpen(false));
+  const { setVisible } = useSolarSystem();
+  useOutsideClick(modalRef, () => {
+    setOpen(false);
+    setVisible(true);
+  });
 
   return (
     <AnimatePresence>

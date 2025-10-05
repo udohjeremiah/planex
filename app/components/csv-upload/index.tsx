@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/animated-modal";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
+import { useSolarSystem } from "@/providers/solar-provider";
 import { catchError } from "@/utils/catch-error";
 
 import { CsvUpload200Response, useCsvUpload } from "./queries";
@@ -21,6 +22,7 @@ export default function CsvUpload() {
   const mutation = useCsvUpload();
   const [file, setFile] = useState<File>();
   const { setOpen: setOpenModal } = useModal();
+  const { setVisible: setSolarSystem } = useSolarSystem();
   const [result, setResult] = useState<CsvUpload200Response | undefined>();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -30,6 +32,7 @@ export default function CsvUpload() {
 
     setFile(undefined);
     setResult(result);
+    setSolarSystem(false);
     setOpenModal(true);
     setCurrentIndex(0);
   }
@@ -78,32 +81,35 @@ export default function CsvUpload() {
               <ModalContent className="p-0 md:p-0">
                 {result ? (
                   <div className="relative flex flex-col divide-y">
-                    {/* 3D Exoplanet Visualization */}
-                    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden bg-black">
-                      {/* Full-screen pulsating glow */}
-                      <div className="animate-glow-pulse absolute inset-0 bg-gradient-to-br from-purple-500 via-indigo-400 to-blue-400 opacity-20 blur-[200px]"></div>
-                      {/* Starfield behind */}
-                      <div className="animate-star-shimmer absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] opacity-20"></div>
-                      {/* Exoplanet sphere */}
-                      <div className="animate-spin-slow relative h-36 w-36 overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 shadow-[0_0_80px_rgba(139,92,246,0.8)]">
-                        {/* Light shading for 3D effect */}
-                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.15),transparent)]"></div>
-                        {/* Atmospheric bands */}
-                        <div className="animate-band-spin-fast absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,_#ffffff10,_#ffffff05,_#ffffff10)] opacity-20"></div>
-                        <div className="animate-band-spin-slow-reverse absolute inset-0 rounded-full bg-[conic-gradient(from_90deg,_#ffffff08,_#ffffff02,_#ffffff08)] opacity-15"></div>
-                        {/* Cloud swirls */}
-                        <div className="animate-spin-slower-reverse absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.08)_5%,transparent_50%)] opacity-20"></div>
-                      </div>
-                      {/* Dust rings / halo layers */}
-                      <div className="animate-spin-slower absolute h-44 w-44 rounded-full border border-white/10 opacity-30"></div>
-                      <div className="animate-spin-slower-reverse absolute h-60 w-60 rounded-full border border-white/5 opacity-20"></div>
+                    <div className="relative h-80 w-full justify-center overflow-hidden rounded-t-xl">
+                      <video
+                        src="/space.webm"
+                        className="absolute inset-0 h-full w-full object-cover"
+                        autoPlay
+                        preload="auto"
+                        playsInline
+                        muted
+                        loop
+                        controls={false}
+                      />
+                      <div className="absolute inset-0 bg-black/40"></div>
                     </div>
-                    {/* 🌍 Planet Info */}
                     <div className="animate-fade-in-up relative p-6 md:p-8">
-                      <h3 className="mb-4 text-center text-lg font-semibold text-indigo-300">
-                        Number of Records: {result.num_records}
-                      </h3>
-                      {/* Carousel */}
+                      <div className="my-4 flex items-center justify-center gap-6">
+                        <Button
+                          onClick={previousSlide}
+                          variant="outline"
+                          size="lg"
+                        >
+                          <ChevronLeft className="size-4" /> Prev
+                        </Button>
+                        <h3 className="text-center text-lg font-semibold text-indigo-300">
+                          Number of Records: {result.num_records}
+                        </h3>
+                        <Button onClick={nextSlide} variant="outline" size="lg">
+                          Next <ChevronRight className="size-4" />
+                        </Button>
+                      </div>
                       <div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-white/10 bg-black/30 p-6 backdrop-blur-sm">
                         {result.predictions.length > 0 ? (
                           <div className="transition-all duration-500">
@@ -149,26 +155,9 @@ export default function CsvUpload() {
                                 }
                               </p>
                             </div>
-                            {/* Navigation Buttons */}
-                            <div className="mt-6 flex items-center justify-center gap-6">
-                              <Button
-                                onClick={previousSlide}
-                                variant="outline"
-                                size="lg"
-                              >
-                                <ChevronLeft className="size-4" /> Prev
-                              </Button>
-                              <Button
-                                onClick={nextSlide}
-                                variant="outline"
-                                size="lg"
-                              >
-                                Next <ChevronRight className="size-4" />
-                              </Button>
-                            </div>
                           </div>
                         ) : (
-                          <p className="text-center text-white/70">
+                          <p className="text-foreground/70 text-center">
                             No predictions available.
                           </p>
                         )}
