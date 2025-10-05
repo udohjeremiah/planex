@@ -172,6 +172,9 @@ export default function ManualInput() {
                 </Button>
               </form>
             </Form>
+            <p className="text-muted-foreground text-sm font-medium">
+              * Exominer model accuracy score is 99%
+            </p>
           </div>
           <Modal>
             <ModalBody>

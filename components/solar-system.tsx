@@ -5,7 +5,13 @@ export default function SolarSystem() {
     <div className="absolute -z-50">
       <div className="container">
         <div className="sun">
-          <Image src="/planets/sun.png" alt="Sun" width={160} height={160} />
+          <Image
+            src="/planets/sun.png"
+            alt="Sun"
+            width={160}
+            height={160}
+            priority
+          />
         </div>
         <div className="mercury" />
         <div className="venus" />

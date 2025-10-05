@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
+import ReactDOM from "react-dom";
 
 import Home from "./components/home";
 
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
+  ReactDOM.preload("/planets/sun.png", { as: "image" });
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Home />
