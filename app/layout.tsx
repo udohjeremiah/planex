@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import RootProviders from "@/providers/root-providers";
@@ -15,12 +14,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Planex — Discover New Worlds with AI",
-  description:
-    "Planex transforms NASA's open exoplanet data into cosmic discoveries. Enter a KEP ID, upload a CSV, or input data manually to detect potential exoplanets using AI-powered analysis.",
-};
 
 export default function RootLayout({
   children,

@@ -84,7 +84,11 @@ export default function ManualInput() {
                       <FormItem className="w-full">
                         <FormLabel>Local Folded Light Curve</FormLabel>
                         <FormControl>
-                          <Input placeholder="201" {...field} />
+                          <Input
+                            placeholder="201"
+                            className="bg-input"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -97,7 +101,11 @@ export default function ManualInput() {
                       <FormItem className="w-full">
                         <FormLabel>Global Folded Light Curve</FormLabel>
                         <FormControl>
-                          <Input placeholder="2001" {...field} />
+                          <Input
+                            placeholder="2001"
+                            className="bg-input"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -110,7 +118,11 @@ export default function ManualInput() {
                       <FormItem className="w-full">
                         <FormLabel>Unfolded Light Curve</FormLabel>
                         <FormControl>
-                          <Input placeholder="4000" {...field} />
+                          <Input
+                            placeholder="4000"
+                            className="bg-input"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -123,7 +135,11 @@ export default function ManualInput() {
                       <FormItem className="w-full">
                         <FormLabel>Centroid Time Series</FormLabel>
                         <FormControl>
-                          <Input placeholder="2001" {...field} />
+                          <Input
+                            placeholder="2001"
+                            className="bg-input"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -137,7 +153,11 @@ export default function ManualInput() {
                     <FormItem className="w-full">
                       <FormLabel>Diagnostic Scalar Features</FormLabel>
                       <FormControl>
-                        <Input placeholder="30" {...field} />
+                        <Input
+                          placeholder="30"
+                          className="bg-input"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
