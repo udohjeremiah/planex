@@ -172,7 +172,7 @@ export default function KepId() {
                           isLink: false,
                         },
                         {
-                          label: "Kep ID Link",
+                          label: "See More Info",
                           value: `https://exoplanetarchive.ipac.caltech.edu/overview/${result.koi_name}`,
                           emoji: "🚀",
                           isLink: true,
