@@ -2,7 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { LoaderIcon, RocketIcon, SendIcon } from "lucide-react";
+import {
+  ExternalLinkIcon,
+  LoaderIcon,
+  RocketIcon,
+  SendIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
@@ -25,6 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
 import { catchError } from "@/utils/catch-error";
+import { cn } from "@/utils/cn";
 
 import { KepId200Response, useKepId } from "./queries";
 
@@ -133,41 +139,69 @@ export default function KepId() {
                           label: "Unique Celestial Identifier",
                           value: result.kepid,
                           emoji: "🪐",
+                          isLink: false,
                         },
                         {
                           label: "Planet Name",
                           value: result.koi_name,
                           emoji: "🌌",
+                          isLink: false,
                         },
                         {
                           label: "Disposition",
                           value: result.disposition,
                           emoji: "⚡",
+                          isLink: false,
                         },
                         {
                           label: "Orbital Period (days)",
                           value: result.period_days,
                           emoji: "🕒",
+                          isLink: false,
                         },
                         {
                           label: "Radius (Earth)",
                           value: result.radius_earth,
                           emoji: "🌍",
+                          isLink: false,
                         },
                         {
                           label: "Stellar Temp",
                           value: result.stellar_temp,
                           emoji: "☀️",
+                          isLink: false,
+                        },
+                        {
+                          label: "Kep ID Link",
+                          value: `https://exoplanetarchive.ipac.caltech.edu/overview/${result.koi_name}`,
+                          emoji: "🚀",
+                          isLink: true,
                         },
                       ].map((item, index) => (
                         <div
                           key={item.label}
-                          className={`animate-fade-in-up text-foreground/80 flex justify-between py-3 [animation-delay:${0.2 * index}s]`}
+                          className={cn(
+                            "animate-fade-in-up text-foreground/90 flex justify-between py-3",
+                            `[animation-delay:${0.15 * index}s]`,
+                          )}
                         >
                           <span className="flex items-center gap-2 font-medium">
                             <span>{item.emoji}</span> {item.label}
                           </span>
-                          <span className="font-semibold">{item.value}</span>
+                          {item.isLink ? (
+                            <a
+                              href={item.value.toString()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 font-semibold text-indigo-300 transition-colors hover:text-indigo-400 hover:underline"
+                            >
+                              Visit <ExternalLinkIcon className="size-4" />
+                            </a>
+                          ) : (
+                            <span className="text-foreground/80 font-semibold">
+                              {item.value ?? "—"}
+                            </span>
+                          )}
                         </div>
                       ))}
                     </div>
