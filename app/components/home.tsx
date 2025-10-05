@@ -32,7 +32,7 @@ export default function Home() {
         <SolarSystem />
         <SpaceBackground />
         <div className="flex flex-col items-center">
-          <h2 className="text-center text-2xl font-semibold">
+          <h2 className="text-center text-2xl font-semibold md:text-4xl">
             Welcome to Planex!
           </h2>
           <p className="text-center text-sm leading-relaxed md:text-base">
