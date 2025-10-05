@@ -19,7 +19,6 @@ export type KepId200Response = z.infer<typeof kepId200ResponseSchema>;
 
 const kepId = async (data: KepIdRequest) => {
   const response = await apiClient.get(`/kepid/${data.kepId}`);
-  console.log(response);
   return kepId200ResponseSchema.parse(response.data);
 };
 
