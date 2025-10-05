@@ -208,7 +208,7 @@ export default function KepId() {
                   </div>
                 ) : (
                   <div className="text-muted p-8 text-center">
-                    No data available yet.
+                    No result available yet.
                   </div>
                 )}
               </ModalContent>

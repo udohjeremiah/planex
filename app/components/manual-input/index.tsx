@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { LoaderIcon } from "lucide-react";
+import { ExternalLinkIcon, LoaderIcon } from "lucide-react";
+import { useState } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,7 +12,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   useModal,
 } from "@/components/ui/animated-modal";
 import { Button } from "@/components/ui/button";
@@ -26,14 +26,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
 import { catchError } from "@/utils/catch-error";
+import { cn } from "@/utils/cn";
 
-import { useManualInput } from "./queries";
+import { ManualInput200Response, useManualInput } from "./queries";
 
-const numericString = nonEmptyString
-  .max(5, { error: "Field must be 5 characters at maximum." })
-  .refine((value) => /^\d+$/.test(value), {
-    error: "Field must contain only numbers.",
-  });
+const numericString = nonEmptyString.refine((value) => /^\d+$/.test(value), {
+  error: "Field must contain only numbers.",
+});
 
 export const FormSchema = z.object({
   lc_local: numericString,
@@ -56,14 +55,15 @@ export default function ManualInput() {
     },
   });
   const { setOpen: setOpenModal } = useModal();
+  const [result, setResult] = useState<ManualInput200Response | undefined>();
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    const [error, data] = await catchError(mutation.mutateAsync(values));
+    const [error, result] = await catchError(mutation.mutateAsync(values));
     if (error) return;
 
     form.reset();
+    setResult(result);
     setOpenModal(true);
-    console.log(data);
   }
 
   return (
@@ -155,25 +155,79 @@ export default function ManualInput() {
           </div>
           <Modal>
             <ModalBody>
-              <div className="flex items-center justify-center py-40">
-                <ModalContent>
-                  <h4 className="mb-8 text-center text-lg font-bold text-neutral-600 md:text-2xl dark:text-neutral-100">
-                    Book your trip to{" "}
-                    <span className="rounded-md border border-gray-200 bg-gray-100 px-1 py-0.5 dark:border-neutral-700 dark:bg-neutral-800">
-                      Bali
-                    </span>{" "}
-                    now! ✈️
-                  </h4>
-                </ModalContent>
-                <ModalFooter className="gap-4">
-                  <button className="w-28 rounded-md border border-gray-300 bg-gray-200 px-2 py-1 text-sm text-black dark:border-black dark:bg-black dark:text-white">
-                    Cancel
-                  </button>
-                  <button className="w-28 rounded-md border border-black bg-black px-2 py-1 text-sm text-white dark:bg-white dark:text-black">
-                    Book Now
-                  </button>
-                </ModalFooter>
-              </div>
+              <ModalContent className="p-0 md:p-0">
+                {result ? (
+                  <div className="relative flex flex-col divide-y overflow-hidden">
+                    {/* 3D Exoplanet Visualization */}
+                    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden bg-black">
+                      {/* Full-screen pulsating glow */}
+                      <div className="animate-glow-pulse absolute inset-0 bg-gradient-to-br from-purple-500 via-indigo-400 to-blue-400 opacity-20 blur-[200px]"></div>
+                      {/* Starfield behind */}
+                      <div className="animate-star-shimmer absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] opacity-20"></div>
+                      {/* Exoplanet sphere */}
+                      <div className="animate-spin-slow relative h-36 w-36 overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 shadow-[0_0_80px_rgba(139,92,246,0.8)]">
+                        {/* Light shading for 3D effect */}
+                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.15),transparent)]"></div>
+                        {/* Atmospheric bands */}
+                        <div className="animate-band-spin-fast absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,_#ffffff10,_#ffffff05,_#ffffff10)] opacity-20"></div>
+                        <div className="animate-band-spin-slow-reverse absolute inset-0 rounded-full bg-[conic-gradient(from_90deg,_#ffffff08,_#ffffff02,_#ffffff08)] opacity-15"></div>
+                        {/* Cloud swirls */}
+                        <div className="animate-spin-slower-reverse absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.08)_5%,transparent_50%)] opacity-20"></div>
+                      </div>
+                      {/* Dust rings / halo layers */}
+                      <div className="animate-spin-slower absolute h-44 w-44 rounded-full border border-white/10 opacity-30"></div>
+                      <div className="animate-spin-slower-reverse absolute h-60 w-60 rounded-full border border-white/5 opacity-20"></div>
+                    </div>
+                    {/* Planet info section with fade-in */}
+                    <div className="animate-fade-in-up divide-y p-6 md:p-8">
+                      {[
+                        {
+                          label: "Classification",
+                          value: result.class,
+                          emoji: "🪐",
+                          isLink: false,
+                        },
+                        {
+                          label: "Confidence Score",
+                          value: `${result.confidence.toFixed(2)}%`,
+                          emoji: "🌟",
+                          isLink: false,
+                        },
+                      ].map((item, index) => (
+                        <div
+                          key={item.label}
+                          className={cn(
+                            "animate-fade-in-up text-foreground/90 flex justify-between py-3",
+                            `[animation-delay:${0.15 * index}s]`,
+                          )}
+                        >
+                          <span className="flex items-center gap-2 font-medium">
+                            <span>{item.emoji}</span> {item.label}
+                          </span>
+                          {item.isLink ? (
+                            <a
+                              href={item.value.toString()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 font-semibold text-indigo-300 transition-colors hover:text-indigo-400 hover:underline"
+                            >
+                              Visit <ExternalLinkIcon className="size-4" />
+                            </a>
+                          ) : (
+                            <span className="text-foreground/80 font-semibold">
+                              {item.value ?? "—"}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-muted p-8 text-center">
+                    No result available yet.
+                  </div>
+                )}
+              </ModalContent>
             </ModalBody>
           </Modal>
         </ErrorBoundary>

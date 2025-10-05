@@ -17,6 +17,9 @@ const manualInput200ResponseSchema = z.object({
   class: z.string(),
   confidence: z.number(),
 });
+export type ManualInput200Response = z.infer<
+  typeof manualInput200ResponseSchema
+>;
 
 const manualInput = async (data: ManualInputRequest) => {
   const response = await apiClient.post("/predict/json", data);
