@@ -5,9 +5,15 @@ import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { LoaderIcon } from "lucide-react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  useModal,
+} from "@/components/ui/animated-modal";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,11 +36,11 @@ const numericString = nonEmptyString
   });
 
 export const FormSchema = z.object({
-  lcLenLocal: numericString,
-  lcLenGlobal: numericString,
-  lcLenUnfolded: numericString,
-  centroidLen: numericString,
-  numScalarFeatures: numericString,
+  lc_local: numericString,
+  lc_global: numericString,
+  lc_unfolded: numericString,
+  centroid: numericString,
+  scalar_features: numericString,
 });
 
 export default function ManualInput() {
@@ -42,21 +48,22 @@ export default function ManualInput() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      lcLenLocal: "",
-      lcLenGlobal: "",
-      lcLenUnfolded: "",
-      centroidLen: "",
-      numScalarFeatures: "",
+      lc_local: "",
+      lc_global: "",
+      lc_unfolded: "",
+      centroid: "",
+      scalar_features: "",
     },
   });
+  const { setOpen: setOpenModal } = useModal();
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     const [error, data] = await catchError(mutation.mutateAsync(values));
     if (error) return;
 
     form.reset();
+    setOpenModal(true);
     console.log(data);
-    toast("");
   }
 
   return (
@@ -72,7 +79,7 @@ export default function ManualInput() {
                 <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
-                    name="lcLenLocal"
+                    name="lc_local"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Local Folded Light Curve</FormLabel>
@@ -85,7 +92,7 @@ export default function ManualInput() {
                   />
                   <FormField
                     control={form.control}
-                    name="lcLenGlobal"
+                    name="lc_global"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Global Folded Light Curve</FormLabel>
@@ -98,7 +105,7 @@ export default function ManualInput() {
                   />
                   <FormField
                     control={form.control}
-                    name="lcLenUnfolded"
+                    name="lc_unfolded"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Unfolded Light Curve</FormLabel>
@@ -111,7 +118,7 @@ export default function ManualInput() {
                   />
                   <FormField
                     control={form.control}
-                    name="centroidLen"
+                    name="centroid"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Centroid Time Series</FormLabel>
@@ -125,7 +132,7 @@ export default function ManualInput() {
                 </div>
                 <FormField
                   control={form.control}
-                  name="numScalarFeatures"
+                  name="scalar_features"
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Diagnostic Scalar Features</FormLabel>
@@ -146,6 +153,29 @@ export default function ManualInput() {
               </form>
             </Form>
           </div>
+          <Modal>
+            <ModalBody>
+              <div className="flex items-center justify-center py-40">
+                <ModalContent>
+                  <h4 className="mb-8 text-center text-lg font-bold text-neutral-600 md:text-2xl dark:text-neutral-100">
+                    Book your trip to{" "}
+                    <span className="rounded-md border border-gray-200 bg-gray-100 px-1 py-0.5 dark:border-neutral-700 dark:bg-neutral-800">
+                      Bali
+                    </span>{" "}
+                    now! ✈️
+                  </h4>
+                </ModalContent>
+                <ModalFooter className="gap-4">
+                  <button className="w-28 rounded-md border border-gray-300 bg-gray-200 px-2 py-1 text-sm text-black dark:border-black dark:bg-black dark:text-white">
+                    Cancel
+                  </button>
+                  <button className="w-28 rounded-md border border-black bg-black px-2 py-1 text-sm text-white dark:bg-white dark:text-black">
+                    Book Now
+                  </button>
+                </ModalFooter>
+              </div>
+            </ModalBody>
+          </Modal>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>

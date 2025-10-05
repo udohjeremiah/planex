@@ -5,18 +5,21 @@ import { apiClient } from "@/lib/api-client";
 import { nonEmptyString } from "@/schemas/non-empty-string";
 
 const manualInputRequestSchema = z.object({
-  lcLenLocal: nonEmptyString,
-  lcLenGlobal: nonEmptyString,
-  lcLenUnfolded: nonEmptyString,
-  centroidLen: nonEmptyString,
-  numScalarFeatures: nonEmptyString,
+  lc_local: nonEmptyString,
+  lc_global: nonEmptyString,
+  lc_unfolded: nonEmptyString,
+  centroid: nonEmptyString,
+  scalar_features: nonEmptyString,
 });
 type ManualInputRequest = z.infer<typeof manualInputRequestSchema>;
 
-const manualInput200ResponseSchema = z.object({});
+const manualInput200ResponseSchema = z.object({
+  class: z.string(),
+  confidence: z.number(),
+});
 
 const manualInput = async (data: ManualInputRequest) => {
-  const response = await apiClient.post("/manual-input", data);
+  const response = await apiClient.post("/predict/json", data);
   return manualInput200ResponseSchema.parse(response.data);
 };
 

@@ -4,8 +4,14 @@ import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { LoaderIcon } from "lucide-react";
 import React, { useState } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
-import { toast } from "sonner";
 
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  useModal,
+} from "@/components/ui/animated-modal";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/ui/file-upload";
 import { catchError } from "@/utils/catch-error";
@@ -15,14 +21,15 @@ import { useCsvUpload } from "./queries";
 export default function CsvUpload() {
   const mutation = useCsvUpload();
   const [file, setFile] = useState<File>();
+  const { setOpen: setOpenModal } = useModal();
 
   async function onSubmit(file: File) {
     const [error, data] = await catchError(mutation.mutateAsync({ file }));
     if (error) return;
 
     setFile(undefined);
+    setOpenModal(true);
     console.log(data);
-    toast("");
   }
 
   return (
@@ -52,6 +59,29 @@ export default function CsvUpload() {
               </div>
             )}
           </div>
+          <Modal>
+            <ModalBody>
+              <div className="flex items-center justify-center py-40">
+                <ModalContent>
+                  <h4 className="mb-8 text-center text-lg font-bold text-neutral-600 md:text-2xl dark:text-neutral-100">
+                    Book your trip to{" "}
+                    <span className="rounded-md border border-gray-200 bg-gray-100 px-1 py-0.5 dark:border-neutral-700 dark:bg-neutral-800">
+                      Bali
+                    </span>{" "}
+                    now! ✈️
+                  </h4>
+                </ModalContent>
+                <ModalFooter className="gap-4">
+                  <button className="w-28 rounded-md border border-gray-300 bg-gray-200 px-2 py-1 text-sm text-black dark:border-black dark:bg-black dark:text-white">
+                    Cancel
+                  </button>
+                  <button className="w-28 rounded-md border border-black bg-black px-2 py-1 text-sm text-white dark:bg-white dark:text-black">
+                    Book Now
+                  </button>
+                </ModalFooter>
+              </div>
+            </ModalBody>
+          </Modal>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>

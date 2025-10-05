@@ -37,7 +37,7 @@ export const useModal = () => {
 };
 
 export function Modal({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
+  return <>{children}</>;
 }
 
 export const ModalTrigger = ({

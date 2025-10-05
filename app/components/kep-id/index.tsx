@@ -3,11 +3,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { LoaderIcon, RocketIcon, SendIcon } from "lucide-react";
+import { useState } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  useModal,
+} from "@/components/ui/animated-modal";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,11 +26,11 @@ import { Input } from "@/components/ui/input";
 import { nonEmptyString } from "@/schemas/non-empty-string";
 import { catchError } from "@/utils/catch-error";
 
-import { useKepId } from "./queries";
+import { KepId200Response, useKepId } from "./queries";
 
 export const FormSchema = z.object({
   kepId: nonEmptyString
-    .max(5, { error: "Field must be 5 characters at maximum." })
+    .min(4, { error: "Field must be at least 4 characters." })
     .refine((value) => /^\d+$/.test(value), {
       error: "Field must contain only numbers.",
     }),
@@ -38,14 +44,16 @@ export default function KepId() {
       kepId: "",
     },
   });
+  const { setOpen: setOpenModal } = useModal();
+  const [result, setResult] = useState<KepId200Response | undefined>();
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    const [error, data] = await catchError(mutation.mutateAsync(values));
+    const [error, result] = await catchError(mutation.mutateAsync(values));
     if (error) return;
 
     form.reset();
-    console.log(data);
-    toast("");
+    setResult(result);
+    setOpenModal(true);
   }
 
   return (
@@ -93,6 +101,85 @@ export default function KepId() {
               </form>
             </Form>
           </div>
+          <Modal>
+            <ModalBody>
+              <ModalContent className="p-0 md:p-0">
+                {result ? (
+                  <div className="relative flex flex-col divide-y overflow-hidden">
+                    {/* 3D Exoplanet Visualization */}
+                    <div className="relative flex h-80 w-full items-center justify-center overflow-hidden bg-black">
+                      {/* Full-screen pulsating glow */}
+                      <div className="animate-glow-pulse absolute inset-0 bg-gradient-to-br from-purple-500 via-indigo-400 to-blue-400 opacity-20 blur-[200px]"></div>
+                      {/* Starfield behind */}
+                      <div className="animate-star-shimmer absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] opacity-20"></div>
+                      {/* Exoplanet sphere */}
+                      <div className="animate-spin-slow relative h-36 w-36 overflow-hidden rounded-full bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 shadow-[0_0_80px_rgba(139,92,246,0.8)]">
+                        {/* Light shading for 3D effect */}
+                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.15),transparent)]"></div>
+                        {/* Atmospheric bands */}
+                        <div className="animate-band-spin-fast absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,_#ffffff10,_#ffffff05,_#ffffff10)] opacity-20"></div>
+                        <div className="animate-band-spin-slow-reverse absolute inset-0 rounded-full bg-[conic-gradient(from_90deg,_#ffffff08,_#ffffff02,_#ffffff08)] opacity-15"></div>
+                        {/* Cloud swirls */}
+                        <div className="animate-spin-slower-reverse absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.08)_5%,transparent_50%)] opacity-20"></div>
+                      </div>
+                      {/* Dust rings / halo layers */}
+                      <div className="animate-spin-slower absolute h-44 w-44 rounded-full border border-white/10 opacity-30"></div>
+                      <div className="animate-spin-slower-reverse absolute h-60 w-60 rounded-full border border-white/5 opacity-20"></div>
+                    </div>
+                    {/* Planet info section with fade-in */}
+                    <div className="animate-fade-in-up divide-y p-6 md:p-8">
+                      {[
+                        {
+                          label: "Unique Celestial Identifier",
+                          value: result.kepid,
+                          emoji: "🪐",
+                        },
+                        {
+                          label: "Planet Name",
+                          value: result.koi_name,
+                          emoji: "🌌",
+                        },
+                        {
+                          label: "Disposition",
+                          value: result.disposition,
+                          emoji: "⚡",
+                        },
+                        {
+                          label: "Orbital Period (days)",
+                          value: result.period_days,
+                          emoji: "🕒",
+                        },
+                        {
+                          label: "Radius (Earth)",
+                          value: result.radius_earth,
+                          emoji: "🌍",
+                        },
+                        {
+                          label: "Stellar Temp",
+                          value: result.stellar_temp,
+                          emoji: "☀️",
+                        },
+                      ].map((item, index) => (
+                        <div
+                          key={item.label}
+                          className={`animate-fade-in-up text-foreground/80 flex justify-between py-3 [animation-delay:${0.2 * index}s]`}
+                        >
+                          <span className="flex items-center gap-2 font-medium">
+                            <span>{item.emoji}</span> {item.label}
+                          </span>
+                          <span className="font-semibold">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-muted p-8 text-center">
+                    No data available yet.
+                  </div>
+                )}
+              </ModalContent>
+            </ModalBody>
+          </Modal>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
