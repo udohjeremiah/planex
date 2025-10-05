@@ -111,7 +111,7 @@ export default function KepId() {
             <ModalBody>
               <ModalContent className="p-0 md:p-0">
                 {result ? (
-                  <div className="relative flex flex-col divide-y overflow-hidden">
+                  <div className="relative flex flex-col divide-y">
                     {/* 3D Exoplanet Visualization */}
                     <div className="relative flex h-80 w-full items-center justify-center overflow-hidden bg-black">
                       {/* Full-screen pulsating glow */}
@@ -207,7 +207,7 @@ export default function KepId() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-muted p-8 text-center">
+                  <div className="text-muted-foreground p-8 text-center">
                     No result available yet.
                   </div>
                 )}

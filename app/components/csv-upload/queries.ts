@@ -8,7 +8,7 @@ const csvUploadRequestSchema = z.object({
 });
 type CsvUploadRequest = z.infer<typeof csvUploadRequestSchema>;
 
-const csvUploadResponseSchema = z.object({
+const csvUpload200ResponseSchema = z.object({
   num_records: z.number(),
   predictions: z.array(
     z.object({
@@ -22,6 +22,7 @@ const csvUploadResponseSchema = z.object({
     }),
   ),
 });
+export type CsvUpload200Response = z.infer<typeof csvUpload200ResponseSchema>;
 
 const csvUpload = async (data: CsvUploadRequest) => {
   const formData = new FormData();
@@ -30,8 +31,7 @@ const csvUpload = async (data: CsvUploadRequest) => {
   const response = await apiClient.post("/predict/csv", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-
-  return csvUploadResponseSchema.parse(response.data);
+  return csvUpload200ResponseSchema.parse(response.data);
 };
 
 export const useCsvUpload = () => {
