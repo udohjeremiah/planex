@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌌 Planex
 
-## Getting Started
+**Planex** is an AI-powered exoplanet detection platform built during a
+**30-hour hackathon** as part of the
+**[NASA Space Apps Challenge 2025](https://www.spaceappschallenge.org/2025/challenges/a-world-away-hunting-for-exoplanets-with-ai/)**.
 
-First, run the development server:
+It leverages NASA's open-source **Kepler**, **K2**, and **TESS** datasets to
+automatically identify potential exoplanets using machine learning.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🪐 **AI/ML Model:** Trained on NASA's Kepler, K2, and TESS datasets to
+  classify exoplanet candidates.
+- 💡 **Automatic Classification:** Identifies data points as
+  _Confirmed Exoplanets_, _Candidates_, or _False Positives_.
+- 🌐 **Interactive Interface:** Users can upload new datasets and view
+  predictions in real-time.
+- ⚡ **FastAPI Backend:** Efficient inference and preprocessing for large-scale
+  astronomical data.
+- 🛰️ **Built in 30 Hours:** Developed end-to-end during a 30-hour hackathon
+  event.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧠 How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Dataset Input:** NASA's open-source Kepler, K2, and TESS mission data are
+   used for training and testing.
+2. **Preprocessing:** The backend cleans, scales, and prepares transit and
+   orbital data.
+3. **Model Inference:** The trained model predicts whether each observation
+   corresponds to a real exoplanet.
+4. **Visualization:** The frontend displays prediction confidence levels and
+   categorized results.
 
-## Learn More
+## 🧩 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+**Frontend:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js](https://nextjs.org)
+- [TypeScript](https://www.typescriptlang.org)
+- [ShadCN UI](https://ui.shadcn.com)
+- [Tanstack Query](https://tanstack.com/query)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Backend:**
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+👉 Backend source code: [github.com/Fr33b13101/planex](https://github.com/Fr33b13101/planex)
